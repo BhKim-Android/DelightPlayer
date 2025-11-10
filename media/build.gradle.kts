@@ -1,6 +1,8 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.hilt)
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -41,4 +43,18 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+
+    // hilt
+    implementation(libs.hilt.android)
+    ksp(libs.hilt.android.compiler)
+
+    // Coroutine
+    implementation(libs.kotlinx.coroutines.core)
+
+    // For media playback using ExoPlayer
+    implementation(libs.androidx.media3.exoplayer)
+    // For exposing and controlling media sessions
+    implementation(libs.androidx.media3.session)
+
+
 }
