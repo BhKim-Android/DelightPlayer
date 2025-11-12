@@ -21,3 +21,9 @@ dependencyResolutionManagement {
 
 rootProject.name = "DelightPlayer"
 include(":app")
+include(":domain")
+include(":data")
+include(":media")
+include(":feature-list")
+include(":feature-play")
+include(":core-ui")
