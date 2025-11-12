@@ -42,8 +42,11 @@ android {
 }
 
 dependencies {
-    implementation(project(":domain"))
+    implementation(project(":core-ui"))
+    implementation(project(":data"))
     implementation(project(":media"))
+    implementation(project(":feature-list"))
+    implementation(project(":feature-play"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
@@ -63,6 +66,7 @@ dependencies {
 
     implementation(libs.hilt.android)
     ksp(libs.hilt.android.compiler)
+    implementation(libs.androidx.hilt.navigation.compose)
 
     // Coroutine
     implementation(libs.kotlinx.coroutines.android)
