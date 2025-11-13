@@ -44,14 +44,14 @@ fun ListItem(
     }
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 fun ListItemPreview() {
     ListItem(
         UiSong(
-            albumArt = "",
-            title = "",
-            artist = ""
+            albumArt = "https://picsum.photos/200",
+            title = "Shape of You",
+            artist = "Ed Sheeran"
         )
     )
 }

@@ -27,6 +27,7 @@ object ListDestination
 
 @Composable
 fun ListScreen(
+    onItemClick: (Long) -> Unit,
     modifier: Modifier = Modifier,
     viewmodel: ListViewmodel = hiltViewModel()
 ) {
@@ -80,9 +81,4 @@ fun ListScreen(
             ErrorPlaceholder(errorMessage = errorMessage ?: "") { }
         }
     }
-}
-
-@Composable
-fun ListScreenPreview() {
-    ListScreen()
 }

@@ -1,7 +1,7 @@
 package com.delightroom.data.di
 
-import com.delightroom.data.repository.MusicRepositoryImpl
-import com.delightroom.domain.repository.MusicRepository
+import com.delightroom.data.repository.MusicListRepositoryImpl
+import com.delightroom.domain.repository.MusicListRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -15,6 +15,6 @@ abstract class DataModule {
     @Binds
     @Singleton
     abstract fun bindMusicRepository(
-        musicRepositoryImpl: MusicRepositoryImpl
-    ): MusicRepository
+        musicRepositoryImpl: MusicListRepositoryImpl
+    ): MusicListRepository
 }
