@@ -9,8 +9,8 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import com.delightroom.feature_list.ui.ListDestination
 import com.delightroom.feature_list.ui.ListScreen
-import com.delightroom.feature_play.ui.PlayDestination
-import com.delightroom.feature_play.ui.PlayScreen
+import com.delightroom.feature_player.ui.PlayDestination
+import com.delightroom.feature_player.ui.PlayScreen
 
 @Composable
 fun AppNavHost(

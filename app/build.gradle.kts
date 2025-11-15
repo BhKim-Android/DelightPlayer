@@ -45,7 +45,8 @@ dependencies {
     implementation(project(":core-ui"))
     implementation(project(":data"))
     implementation(project(":media"))
-    implementation(project(":feature"))
+    implementation(project(":feature-list"))
+    implementation(project(":feature-player"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
