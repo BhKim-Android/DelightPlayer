@@ -50,6 +50,7 @@ dependencies {
 
     // Coroutine
     implementation(libs.kotlinx.coroutines.core)
+    implementation(libs.androidx.concurrent.futures.ktx)
 
     // For media playback using ExoPlayer
     implementation(libs.androidx.media3.exoplayer)

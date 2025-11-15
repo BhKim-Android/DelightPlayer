@@ -15,6 +15,6 @@ abstract class DataModule {
     @Binds
     @Singleton
     abstract fun bindMusicRepository(
-        musicRepositoryImpl: MusicListRepositoryImpl
+        musicListRepositoryImpl: MusicListRepositoryImpl
     ): MusicListRepository
 }

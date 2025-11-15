@@ -1,23 +1,21 @@
 plugins {
-    alias(libs.plugins.android.application)
+    alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.hilt)
     alias(libs.plugins.ksp)
+    alias(libs.plugins.kotlin.serialization)
 }
 
 android {
-    namespace = "com.delightroom.delightplayer"
+    namespace = "com.delightroom.feature"
     compileSdk = 36
 
     defaultConfig {
-        applicationId = "com.delightroom.delightplayer"
         minSdk = 24
-        targetSdk = 36
-        versionCode = 1
-        versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles("consumer-rules.pro")
     }
 
     buildTypes {
@@ -36,32 +34,19 @@ android {
     kotlinOptions {
         jvmTarget = "11"
     }
-    buildFeatures {
-        compose = true
-    }
 }
 
 dependencies {
+    implementation(project(":domain"))
     implementation(project(":core-ui"))
-    implementation(project(":data"))
-    implementation(project(":media"))
-    implementation(project(":feature"))
 
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.lifecycle.runtime.ktx)
-    implementation(libs.androidx.activity.compose)
+    // Compose - Preview
     implementation(platform(libs.androidx.compose.bom))
+    implementation(libs.coil.compose)
+    implementation(libs.androidx.material3)
     implementation(libs.androidx.ui)
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
-    implementation(libs.androidx.material3)
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
-    androidTestImplementation(platform(libs.androidx.compose.bom))
-    androidTestImplementation(libs.androidx.ui.test.junit4)
-    debugImplementation(libs.androidx.ui.tooling)
-    debugImplementation(libs.androidx.ui.test.manifest)
 
     implementation(libs.hilt.android)
     ksp(libs.hilt.android.compiler)
@@ -72,15 +57,9 @@ dependencies {
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
 
-    // Media3
-    // For exposing and controlling media sessions
-    implementation(libs.androidx.media3.session)
-    // For building media playback UIs using Compose
-    implementation(libs.androidx.media3.ui.compose)
-
     // Paging
     implementation(libs.androidx.paging.compose)
 
-    // Coil
-    implementation(libs.coil.compose)
+    // Kotlin 직렬화
+    implementation(libs.kotlinx.serialization.json)
 }

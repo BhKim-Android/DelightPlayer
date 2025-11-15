@@ -1,7 +1,9 @@
 package com.delightroom.data.paging
 
 import android.content.ContentResolver
+import android.content.ContentUris
 import android.content.Context
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
@@ -85,13 +87,17 @@ class MusicPagingSource @Inject constructor(
                     val albumId = c.getLong(albumIdColumn)
                     val artist = c.getString(artistColumn) ?: "Unknown Artist"
 
-                    val albumArt = "content://media/external/audio/albumart".toUri()
-                        .buildUpon()
-                        .appendPath(albumId.toString())
-                        .build()
-                        .toString()
+                    val albumArt = ContentUris.withAppendedId(
+                        "content://media/external/audio/albumart".toUri(),
+                        albumId
+                    ).toString()
 
-                    val song = Song(albumArt, title, artist)
+                    val content = ContentUris.withAppendedId(
+                        MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
+                        id
+                    ).toString()
+
+                    val song = Song(id, content, albumArt, title, artist)
 
                     songList.add(song)
                 }

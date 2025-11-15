@@ -1,25 +1,23 @@
 package com.delightroom.domain.usecase
 
+import com.delightroom.domain.model.Song
 import com.delightroom.domain.repository.MusicPlayRepository
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.firstOrNull
 import javax.inject.Inject
 
 class MusicPlayUsecase @Inject constructor(
     private val musicPlayRepository: MusicPlayRepository
 ) {
-    val isPlaying: Flow<Boolean> get() = musicPlayRepository.isPlaying
+    val progress: Flow<Long> get() = musicPlayRepository.progress
 
-    suspend fun play(id: Long) {
-        musicPlayRepository.getCurrentPosition().firstOrNull()?.let { pos ->
-            if (pos > 0) musicPlayRepository.stop()
-        }
-        musicPlayRepository.play(id)
+    suspend fun play(songs: List<Song>, index: Int) {
+        musicPlayRepository.play(songs, index)
     }
 
     suspend fun pause() = musicPlayRepository.pause()
-
+    suspend fun resume() = musicPlayRepository.resume()
     suspend fun stop() = musicPlayRepository.stop()
-
     suspend fun seekTo(positionMs: Long) = musicPlayRepository.seekTo(positionMs)
+    suspend fun next() = musicPlayRepository.next()
+    suspend fun previous() = musicPlayRepository.previous()
 }
