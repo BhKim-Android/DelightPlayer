@@ -43,7 +43,4 @@ dependencies {
 
     // Coroutine
     implementation(libs.kotlinx.coroutines.core)
-
-    // Paging
-    implementation(libs.androidx.paging.runtime)
 }
