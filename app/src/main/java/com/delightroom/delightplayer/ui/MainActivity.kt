@@ -75,7 +75,8 @@ class MainActivity : ComponentActivity() {
                 setContent {
                     ErrorPlaceholder(
                         modifier = scaffoldPadding,
-                        errorMessage = "앱을 사용하기 위해서는 권한이 필요합니다."
+                        errorMessage = "앱을 사용하기 위해서는 권한이 필요합니다.",
+                        confirmText = "다시 시도"
                     ) {
                         requestAudioPermission()
                     }

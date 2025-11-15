@@ -45,8 +45,7 @@ dependencies {
     implementation(project(":core-ui"))
     implementation(project(":data"))
     implementation(project(":media"))
-    implementation(project(":feature-list"))
-    implementation(project(":feature-player"))
+    implementation(project(":feature"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
@@ -78,9 +77,6 @@ dependencies {
     implementation(libs.androidx.media3.session)
     // For building media playback UIs using Compose
     implementation(libs.androidx.media3.ui.compose)
-
-    // Paging
-    implementation(libs.androidx.paging.compose)
 
     // Coil
     implementation(libs.coil.compose)

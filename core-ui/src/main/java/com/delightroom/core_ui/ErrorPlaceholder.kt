@@ -17,9 +17,10 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun ErrorPlaceholder(
-    errorMessage: String,
     modifier: Modifier = Modifier,
-    onRetry: () -> Unit
+    errorMessage: String,
+    confirmText: String,
+    onConfirm: () -> Unit
 ) {
     Box(
         modifier = modifier
@@ -35,9 +36,9 @@ fun ErrorPlaceholder(
                 textAlign = TextAlign.Center
             )
             Spacer(modifier = Modifier.height(8.dp))
-            TextButton(onClick = onRetry) {
+            TextButton(onClick = onConfirm) {
                 Text(
-                    text = "다시 시도",
+                    text = confirmText,
                     color = MaterialTheme.colorScheme.primary,
                     style = MaterialTheme.typography.labelLarge
                 )
