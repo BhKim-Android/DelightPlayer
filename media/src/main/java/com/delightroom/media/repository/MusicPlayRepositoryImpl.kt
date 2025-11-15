@@ -26,6 +26,17 @@ class MusicPlayRepositoryImpl @Inject constructor(
 ) : MusicPlayRepository {
 
     private suspend fun getController(): MediaController = mediaControllerFuture.await()
+    override val isPlaying: Flow<Boolean> = callbackFlow {
+        val controller = getController()
+        val listener = object : Player.Listener {
+            override fun onIsPlayingChanged(isPlaying: Boolean) {
+                trySend(isPlaying)
+            }
+        }
+        controller.addListener(listener)
+        trySend(controller.isPlaying)
+        awaitClose { controller.removeListener(listener) }
+    }
 
     override val currentSong: Flow<Song?> = callbackFlow {
         val controller = getController()

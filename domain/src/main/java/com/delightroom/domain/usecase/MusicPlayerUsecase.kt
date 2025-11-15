@@ -8,6 +8,7 @@ import javax.inject.Inject
 class MusicPlayerUsecase @Inject constructor(
     private val musicPlayRepository: MusicPlayRepository
 ) {
+    val isPlaing: Flow<Boolean> get() = musicPlayRepository.isPlaying
     val currentSong: Flow<Song?> get() = musicPlayRepository.currentSong
     val progress: Flow<Long> get() = musicPlayRepository.progress
     val duration: Flow<Long> get() = musicPlayRepository.duration

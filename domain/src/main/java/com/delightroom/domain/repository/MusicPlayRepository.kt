@@ -4,6 +4,7 @@ import com.delightroom.domain.model.Song
 import kotlinx.coroutines.flow.Flow
 
 interface MusicPlayRepository {
+    val isPlaying: Flow<Boolean>
     val currentSong: Flow<Song?> // 재생중인 곡정보, null인경우 재생중이 아님.
     val progress: Flow<Long>    // 재생시간.
     val duration: Flow<Long>
