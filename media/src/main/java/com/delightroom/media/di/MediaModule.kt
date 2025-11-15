@@ -51,13 +51,11 @@ object MediaModule {
                     mediaSession: MediaSession,
                     controller: MediaSession.ControllerInfo
                 ): ListenableFuture<MediaSession.MediaItemsWithStartPosition> {
-                    // 여기에 재생할 MediaItem을 반환
-                    // 예시: 현재 플레이어의 MediaItem과 위치를 반환
                     val currentItem = player.currentMediaItem
                     val position = player.currentPosition
                     val mediaItemsWithStart = MediaSession.MediaItemsWithStartPosition(
                         listOfNotNull(currentItem),
-                        0, // currentItem이 첫 번째라면 index = 0
+                        0,
                         position
                     )
                     return com.google.common.util.concurrent.Futures.immediateFuture(

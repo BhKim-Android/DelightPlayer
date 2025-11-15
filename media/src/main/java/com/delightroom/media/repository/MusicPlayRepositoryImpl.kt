@@ -2,7 +2,6 @@ package com.delightroom.media.repository
 
 import android.content.ContentUris
 import android.provider.MediaStore
-import android.util.Log
 import androidx.concurrent.futures.await
 import androidx.core.net.toUri
 import androidx.media3.common.MediaItem
@@ -70,8 +69,6 @@ class MusicPlayRepositoryImpl @Inject constructor(
     override suspend fun play(id: Long, songs: List<Song>) {
         val playIndex = songs.indexOfFirst { it.id == id }
         val mediaItems = songs.map {
-            Log.d("toss", "setMediaId : ${it.id}\nsetUri : ${it.content}")
-            Log.e("toss", "setMediaMetadata\nsetTitle: ${it.title}\nsetArtist : ${it.artist}\nsetArtworkUri : ${it.albumArt}")
             MediaItem.Builder()
                 .setMediaId(it.id.toString())
                 .setUri(it.content)

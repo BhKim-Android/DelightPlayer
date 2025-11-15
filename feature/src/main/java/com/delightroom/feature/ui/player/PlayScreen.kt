@@ -1,18 +1,24 @@
 package com.delightroom.feature.ui.player
 
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.size
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableFloatStateOf
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.delightroom.core_ui.LoadingIndicator
 import com.delightroom.feature.ui.MusicPlayViewModel
 import kotlinx.serialization.Serializable
 
@@ -31,7 +37,7 @@ fun PlayScreen(
         viewModel.play(id)
     }
 
-    val isPlaing by viewModel.isPlaying.collectAsStateWithLifecycle()
+    val isPlaying by viewModel.isPlaying.collectAsStateWithLifecycle()
     val currentSong by viewModel.currentSong.collectAsStateWithLifecycle()
     val progress by viewModel.progress.collectAsStateWithLifecycle()
     val duration by viewModel.duration.collectAsStateWithLifecycle()
@@ -44,6 +50,13 @@ fun PlayScreen(
     Column(
         modifier = modifier.fillMaxSize()
     ) {
+        IconButton(onClick = onBackClick) {
+            Icon(
+                imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                contentDescription = "Back",
+                modifier = Modifier.size(24.dp)
+            )
+        }
         currentSong?.let {
             SongInfoContent(
                 currentSong = it,
@@ -66,10 +79,10 @@ fun PlayScreen(
                         positionMs = 0L
                     )
                 },
-                onPlayPause = { if (isPlaing) viewModel.pause() else viewModel.resume() },
+                onPlayPause = { if (isPlaying) viewModel.pause() else viewModel.resume() },
                 onNext = { viewModel.next() },
-                isPlaying = isPlaing
+                isPlaying = isPlaying
             )
-        }
+        }?: LoadingIndicator(modifier = Modifier.fillMaxSize())
     }
 }
