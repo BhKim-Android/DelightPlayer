@@ -1,7 +1,12 @@
 package com.delightroom.media.repository
 
+import android.content.ContentUris
+import android.provider.MediaStore
+import android.util.Log
 import androidx.concurrent.futures.await
+import androidx.core.net.toUri
 import androidx.media3.common.MediaItem
+import androidx.media3.common.MediaMetadata
 import androidx.media3.common.Player
 import androidx.media3.session.MediaController
 import com.delightroom.domain.model.Song
@@ -12,6 +17,7 @@ import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
@@ -19,34 +25,62 @@ class MusicPlayRepositoryImpl @Inject constructor(
     private val mediaControllerFuture: ListenableFuture<MediaController>
 ) : MusicPlayRepository {
 
-    // 비동기 MediaController를 안전하게 가져오기
     private suspend fun getController(): MediaController = mediaControllerFuture.await()
 
-    override val progress: Flow<Long> = callbackFlow {
+    override val currentSong: Flow<Song?> = callbackFlow {
         val controller = getController()
-        while (true) {
-            trySend(controller.currentPosition)
-            delay(1000)
+        val listener = object : Player.Listener {
+            override fun onMediaItemTransition(mediaItem: MediaItem?, reason: Int) {
+                super.onMediaItemTransition(mediaItem, reason)
+                trySend(mediaItem?.toSong())
+            }
         }
-        awaitClose { }
+        controller.addListener(listener)
+        trySend(controller.currentMediaItem?.toSong())
+        awaitClose { controller.removeListener(listener) }
     }
 
-    override suspend fun play(
-        songs: List<Song>,
-        index: Int
-    ) {
+    override val progress: Flow<Long> = flow {
         val controller = getController()
+        while (true) {
+            emit(controller.currentPosition)
+            delay(1000)
+        }
+    }
 
-        val mediaItems = songs.map { song ->
+    override val duration: Flow<Long> = flow {
+        val controller = getController()
+        while (true) {
+            emit(controller.duration)
+            delay(1000)
+        }
+    }
+
+    override suspend fun play(id: Long, songs: List<Song>) {
+        val playIndex = songs.indexOfFirst { it.id == id }
+        val mediaItems = songs.map {
+            Log.d("toss", "setMediaId : ${it.id}\nsetUri : ${it.content}")
+            Log.e("toss", "setMediaMetadata\nsetTitle: ${it.title}\nsetArtist : ${it.artist}\nsetArtworkUri : ${it.albumArt}")
             MediaItem.Builder()
-                .setMediaId(song.id.toString())
-                .setUri(song.content)
+                .setMediaId(it.id.toString())
+                .setUri(it.content)
+                .setMediaMetadata(
+                    MediaMetadata.Builder()
+                        .setTitle(it.title)
+                        .setArtist(it.artist)
+                        .setArtworkUri(it.albumArt.toUri())
+                        .build()
+                )
                 .build()
         }
-        controller.setMediaItems(mediaItems)
-        controller.seekTo(index, 0L)
-        controller.prepare()
-        controller.play()
+
+        withContext(Dispatchers.Main) {
+            val controller = getController()
+            controller.setMediaItems(mediaItems)
+            controller.prepare()
+            controller.seekTo(playIndex, 0L)
+            controller.play()
+        }
     }
 
     override suspend fun pause() = withContext(Dispatchers.Main) { getController().pause() }
@@ -60,4 +94,17 @@ class MusicPlayRepositoryImpl @Inject constructor(
 
     override suspend fun previous() =
         withContext(Dispatchers.Main) { getController().seekToPreviousMediaItem() }
+
+    private fun MediaItem.toSong(): Song? {
+        return Song(
+            id = mediaId.toLong(),
+            title = mediaMetadata.title.toString(),
+            artist = mediaMetadata.artist.toString(),
+            albumArt = mediaMetadata.artworkUri.toString(),
+            content = ContentUris.withAppendedId(
+                MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
+                mediaId.toLong()
+            ).toString()
+        )
+    }
 }
