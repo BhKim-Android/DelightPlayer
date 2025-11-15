@@ -13,7 +13,7 @@ class MusicPlayerUsecase @Inject constructor(
     val duration: Flow<Long> get() = musicPlayRepository.duration
 
     // Player Controller
-    suspend fun play(startIndex: Int) = musicPlayRepository.play(startIndex)
+    suspend fun play(id: Long, songs: List<Song>) = musicPlayRepository.play(id, songs)
     suspend fun pause() = musicPlayRepository.pause()
     suspend fun resume() = musicPlayRepository.resume()
     suspend fun stop() = musicPlayRepository.stop()
