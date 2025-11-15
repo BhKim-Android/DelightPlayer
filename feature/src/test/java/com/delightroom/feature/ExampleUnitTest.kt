@@ -1,4 +1,4 @@
-package com.delightroom.feature_list
+package com.delightroom.feature
 
 import org.junit.Test
 

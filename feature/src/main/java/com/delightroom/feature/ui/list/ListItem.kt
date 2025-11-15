@@ -1,5 +1,6 @@
-package com.delightroom.feature_list.ui
+package com.delightroom.feature.ui.list
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -20,9 +21,14 @@ import com.delightroom.domain.model.Song
 @Composable
 fun ListItem(
     uiSong: Song,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onItemClick: (Long) -> Unit
 ) {
-    Row(modifier = modifier.fillMaxWidth()) {
+    Row(
+        modifier = modifier
+            .fillMaxWidth()
+            .clickable {  onItemClick(uiSong.id) }
+    ) {
         AsyncImage(
             model = uiSong.albumArt, contentDescription = "앨범 아트",
             modifier = Modifier
@@ -55,5 +61,5 @@ fun ListItemPreview() {
             title = "Shape of You",
             artist = "Ed Sheeran"
         )
-    )
+    ) {}
 }

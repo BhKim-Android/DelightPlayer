@@ -1,4 +1,4 @@
-package com.delightroom.feature_list
+package com.delightroom.feature
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -19,6 +19,6 @@ class ExampleInstrumentedTest {
     fun useAppContext() {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-        assertEquals("com.delightroom.feature_list.test", appContext.packageName)
+        assertEquals("com.delightroom.feature.test", appContext.packageName)
     }
 }

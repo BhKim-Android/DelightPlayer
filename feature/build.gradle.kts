@@ -8,7 +8,7 @@ plugins {
 }
 
 android {
-    namespace = "com.delightroom.feature_list"
+    namespace = "com.delightroom.feature"
     compileSdk = 36
 
     defaultConfig {
@@ -40,9 +40,14 @@ dependencies {
     implementation(project(":domain"))
     implementation(project(":core-ui"))
 
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.androidx.junit)
+    androidTestImplementation(libs.androidx.espresso.core)
+
     // Compose - Preview
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.coil.compose)
+    implementation("androidx.compose.material:material-icons-extended:1.7.8")
     implementation(libs.androidx.material3)
     implementation(libs.androidx.ui)
     implementation(libs.androidx.ui.graphics)
@@ -56,9 +61,6 @@ dependencies {
     implementation(libs.kotlinx.coroutines.android)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
-
-    // Paging
-    implementation(libs.androidx.paging.compose)
 
     // Kotlin 직렬화
     implementation(libs.kotlinx.serialization.json)
