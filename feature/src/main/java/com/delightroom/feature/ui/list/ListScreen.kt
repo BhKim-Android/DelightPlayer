@@ -27,6 +27,7 @@ fun ListScreen(
 ) {
 
     val songState = viewModel.uiStateList.collectAsStateWithLifecycle()
+    val currentSong = viewModel.currentSong.collectAsStateWithLifecycle()
     Box(modifier = modifier.fillMaxSize()) {
         when (val state = songState.value) {
             is UiState.Loading -> LoadingIndicator()
@@ -38,7 +39,12 @@ fun ListScreen(
                     verticalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
                     items(list.size) { index ->
-                        ListItem(uiSong = list[index], onItemClick = { id -> onItemClick(id) })
+                        val song = list[index]
+                        val isPlaying = currentSong.value?.id == song.id
+                        ListItem(
+                            uiSong = song,
+                            isPlaying = isPlaying,
+                            onItemClick = { id -> onItemClick(id) })
                     }
                 }
             }

@@ -1,5 +1,6 @@
 package com.delightroom.feature.ui.list
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -8,6 +9,7 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -21,13 +23,22 @@ import com.delightroom.domain.model.Song
 @Composable
 fun ListItem(
     uiSong: Song,
+    isPlaying: Boolean,
     modifier: Modifier = Modifier,
     onItemClick: (Long) -> Unit
 ) {
+    val backgroundColor = if (isPlaying) {
+        // 선택된 아이템 배경 (Material3 공식 패턴)
+        MaterialTheme.colorScheme.primary.copy(alpha = 0.08f)
+    } else {
+        MaterialTheme.colorScheme.surface
+    }
+
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .clickable {  onItemClick(uiSong.id) }
+            .background(backgroundColor)
+            .clickable { onItemClick(uiSong.id) }
     ) {
         AsyncImage(
             model = uiSong.albumArt, contentDescription = "앨범 아트",
@@ -60,6 +71,7 @@ fun ListItemPreview() {
             albumArt = "",
             title = "Shape of You",
             artist = "Ed Sheeran"
-        )
+        ),
+        true
     ) {}
 }
